@@ -1,38 +1,217 @@
 #+TITLE: Model Context Protocol (MCP) Projects
 #+AUTHOR: Jason Walsh
-#+DATE: 2025-04-04
+#+DATE: [2025-04-04 Fri]
+#+OPTIONS: toc:3 num:3 ^:{}
 
 * Overview
 
-This repository catalogs Model Context Protocol (MCP) projects and resources. MCP enables structured communication between Large Language Models (LLMs) and external tools, following the JSON-RPC specification.
+The Model Context Protocol (MCP) provides a standardized way for AI models to interact with external tools, data sources, and services. This repository catalogs notable MCP projects and resources, with a focus on our implementations and state-of-the-art servers in the ecosystem.
 
 * Our Projects
 
-** mcp.el - Emacs Implementation
-- [[https://github.com/jwalsh/mcp.el][GitHub Repository]]
-- Provides structured communication between Emacs and MCP servers
-- Supports filesystem and generic servers
-- Features extensible tool system, async/sync operations
-- Integration with packages like gptel
+** mcp.el - Emacs Integration
+:PROPERTIES:
+:URL: https://github.com/jwalsh/mcp.el
+:END:
+
+Seamless integration between Emacs and MCP servers:
+
+- Provides structured communication with MCP servers from within Emacs
+- Supports both filesystem and generic server types
+- Features an extensible tool system with async/sync operations
+- Integrates with packages like ~gptel~ for enhanced AI interactions
+- Enables direct buffer operations via MCP
+
+*** Example Usage
+
+#+begin_src emacs-lisp
+;; Setup MCP connection to a local server
+(require 'mcp)
+
+(mcp-configure-server 
+  :name "filesystem"
+  :command "npx @anthropic-ai/mcp-fs-server"
+  :type 'stdio)
+
+;; Use with gptel
+(setq gptel-backend 'claude
+      gptel-model "claude-3-opus-20240229"
+      gptel-mcp-enabled t)
+
+;; Enable MCP operations on current buffer
+(mcp-enable-in-buffer)
+#+end_src
 
 ** mcp-server-qrcode - QR Code Generator
-- [[https://github.com/jwalsh/mcp-server-qrcode][GitHub Repository]]
+:PROPERTIES:
+:URL: https://github.com/jwalsh/mcp-server-qrcode
+:END:
+
+MCP server for generating QR codes:
+
 - Generates QR codes for URLs, WiFi credentials, contacts, text, and calendar events
 - Multiple output formats (PNG/base64, ASCII/text, data URL)
 - Customizable size and error correction
+- Seamless integration with AI assistants
 
-* External Resources
+*** Example Prompt
 
-** LSP-MCP Implementations
-- [[https://github.com/oOo0oOo/lean-lsp-mcp][lean-lsp-mcp]] - MCP to LSP bridge for the Lean theorem prover
-- [[https://github.com/Tritlo/lsp-mcp][Tritlo/lsp-mcp]] - Protocol for integrating LLMs with LSP servers
-- [[https://github.com/jonrad/lsp-mcp][jonrad/lsp-mcp]] - Another LSP-MCP implementation
+#+begin_example
+Please generate a QR code for my website: https://wal.sh
+Make it moderately sized with high error correction.
+#+end_example
 
-** Other MCP Projects
-- [[https://github.com/microsoft/playwright-mcp][playwright-mcp]] - Microsoft's Playwright browser automation with MCP
+* State-of-the-Art MCP Servers
 
-** Official Resources
+** Development and Tools Integration
+
+*** GitHub Integration
+- [[https://gitmcp.io/][GitMCP]] - Automatic MCP server for every GitHub repository
+- [[https://github.com/awslabs/mcp][AWS MCP Servers]] - Collection of AWS MCP implementations
+
+*** Database Access
+- [[https://github.com/kilic/mcp-mongo-server][MongoDB MCP Server]] - Query MongoDB databases via natural language
+- [[https://github.com/stuzero/pg-mcp][Cloud-Ready Postgres MCP]] - Multi-tenant PostgreSQL server over HTTP/SSE
+- [[https://neon.tech/blog/announcing-neons-remote-mcp-server][Neon's Remote MCP Server]] - Serverless PostgreSQL integration
+- [[https://github.com/acryldata/mcp-server-datahub][DataHub MCP Server]] - Data catalog integration
+
+*** Development Environments
+- [[https://github.com/bigcodegen/mcp-neovim-server][MCP Neovim Server]] - AI text assistant for Neovim
+- [[https://github.com/LaurieWired/GhidraMCP][Ghidra MCP]] - Reverse engineering assistance 
+- [[https://github.com/jonrad/lsp-mcp][LSP MCP]] - Bridge between Language Server Protocol and MCP
+- [[https://github.com/isaacphi/mcp-language-server][MCP Language Server]] - MCP implementation for language servers
+
+*** Infrastructure and Ops
+- [[https://github.com/rohitghumare/kubectl-mcp-server][Kubernetes MCP Server]] - Natural language interaction with K8s clusters
+- [[https://github.com/jdubois/azure-cli-mcp][Azure-CLI-MCP]] - Talking with Azure using MCP
+- [[https://community.aws/content/2v8AETAkyvPp9RVKC4YChncaEbs/running-mcp-based-agents-clients-servers-on-aws][AWS MCP Guidance]] - Running MCP-based agents on AWS
+- [[https://github.com/abshkbh/arrakis][Arrakis]] - Open-source, self-hostable sandboxing service for AI agents
+
+** Content and Communication
+
+*** Messaging and Social
+- [[https://github.com/lharries/whatsapp-mcp][WhatsApp MCP Server]] - Interact with WhatsApp messages and contacts
+- [[https://github.com/rymurr/signal-mcp][Signal MCP Server]] - Signal messenger integration
+- [[https://github.com/GridfireAI/reddit-mcp][Reddit MCP Server]] - Fast and accurate Reddit research
+
+*** Media and Content
+- [[https://github.com/zerubeus/elektron-mcp][Ableton MCP]] - Sound design on hardware synthesizers
+- [[https://github.com/samuelgursky/davinci-resolve-mcp][DaVinci Resolve MCP]] - Video editing integration
+- [[https://github.com/redblock-ai/imgflip-mcp][Meme Creation Platform]] - Generate and modify memes
+- [[https://github.com/TANABEDAIGAKU/vndb-mcp][VNDB MCP Server]] - Visual Novel Database integration
+
+*** Documentation and Knowledge
+- [[https://github.com/CartographAI/atlas-docs-mcp][Atlas Docs MCP]] - Library and framework documentation for LLMs
+- [[https://github.com/thstart/knowledge-library-mcp][Knowledge Library MCP]] - Personal knowledge base integration
+- [[https://github.com/puremd/puremd-mcp][PureMD MCP]] - Reliably access web content
+
+** Productivity and Business
+
+*** Payment and Finance
+- [[https://developer.paypal.com/community/blog/paypal-model-context-protocol/][PayPal MCP Servers]] - Payment processing integration
+- [[https://github.com/JavaProgrammerLB/zoom-mcp-server][Zoom MCP Server]] - Schedule Zoom meetings through AI
+- [[https://github.com/pietrozullo/mcp-use][MCP Use]] - Python client for MCP capable agents
+
+*** Security and Data
+- [[https://github.com/ithena-one/mcp-governance-sdk][MCP Governance SDK]] - Enterprise-grade governance (AuthN/Z, Audit)
+- [[https://blog.runreveal.com/security-operations-with-runreveals-mcp-server/][RunReveal MCP]] - Security operations with log analysis
+- [[https://github.com/klara-research/MCP-Analyzer][MCP Log Reader]] - Analyze MCP logs for debugging
+
+*** Integration Platforms
+- [[https://www.activepieces.com/mcp][Activepieces MCP]] - 280+ open source integrations
+- [[https://zapier.com/mcp][Zapier MCP]] - 30,000+ real-world actions
+- [[https://mcp.pipedream.com/][Pipedream MCP]] - 2,500+ apps and 8,000+ tools
+- [[https://github.com/gumloop/guMCP][GuMCP]] - Free hosted MCP servers
+
+** Mobile and Device Control
+
+*** Device Automation
+- [[https://github.com/runablehq/mobile-mcp][Mobile MCP]] - Control and automate mobile devices
+- [[https://www.phonepimcp.com/][PhonePi MCP]] - Connect phones to AI assistants
+- [[https://github.com/minhalvp/android-mcp-server][Android MCP Server]] - Control Android devices via ADB
+- [[https://ghuntley.com/mcp/][Microsoft Paint MCP]] - MCP server for Microsoft Paint
+
+*** Browser and Web
+- [[https://github.com/microsoft/playwright-mcp][Playwright MCP]] - Browser automation with snapshot support
+- [[https://github.com/Skyvern-AI/skyvern/tree/main/integrations/mcp][Skyvern MCP]] - Let agents control the browser
+- [[https://github.com/44za12/surf][SURF]] - Open-source web access for LLMs
+
+* Integration and Development
+
+** MCP SDKs and Frameworks
+- [[https://github.com/yjacquin/fast-mcp][Fast-MCP]] - Ruby implementation of MCP
+- [[https://github.com/theronic/modex][Modex]] - Clojure MCP library
+- [[https://github.com/grll/mcpadapt][MCPAdapt]] - Use MCP server tools in any agentic framework
+- [[https://github.com/cbranagan89/mcp-openapi][MCP-OpenAPI]] - Bridge between OpenAPI endpoints and MCP
+
+** MCP Clients and Hosts
+- [[https://github.com/OpenAgentPlatform/Dive/releases][Dive]] - Open-source MCP agent desktop for Windows and Linux
+- [[https://docs.chainlit.io/advanced-features/mcp][Chainlit MCP]] - Build conversational LLM applications with MCP
+- [[https://www.getzep.com/blog/cursor-adding-memory-with-graphiti-mcp/][Graphiti]] - Persistent memory for Cursor IDE via MCP
+
+** Security and Governance
+- [[https://lbeurerkellner.github.io/jekyll/update/2025/04/01/mcp-tool-poisoning.html][MCP Tool Poisoning Research]] - Security analysis of vulnerabilities
+- [[https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks][Security Notification]] - Tool poisoning attack prevention
+- [[https://github.com/fka/mcptools][MCP Tools CLI]] - Command-line inspector for MCP servers
+
+* Learning Resources
+
+** Official Documentation
 - [[https://modelcontextprotocol.io/][MCP Official Website]]
 - [[https://docs.anthropic.com/en/docs/agents-and-tools/mcp][Anthropic MCP Documentation]]
-- [[https://modelcontextprotocol.io/quickstart/user][MCP for Users]] - Quickstart guide for using MCP
-- [[https://modelcontextprotocol.io/quickstart/server][Building MCP Servers]] - Guide for server developers
+- [[https://modelcontextprotocol.io/quickstart/user][MCP for Users]] - Quickstart guide
+- [[https://modelcontextprotocol.io/quickstart/server][Building MCP Servers]] - Developer guide
+
+** Guides and Analysis
+- [[https://www.latent.space/p/mcp][The Creators of Model Context Protocol]] - Podcast with creators
+- [[https://www.latent.space/p/why-mcp-won][Why MCP Won]] - Analysis of MCP's rapid adoption
+- [[https://read.highgrowthengineer.com/p/mcps-simply-explained][MCP Explained in 5 Minutes]]
+- [[https://twitchard.github.io/posts/2025-03-09-mcp-hypermedia-reborn.html][MCP: REST Reborn?]] - Technical analysis
+
+** Community Resources
+- [[https://github.com/punkpeye/awesome-mcp-servers][Awesome MCP Servers]] - Curated list of implementations
+- [[https://github.com/PipedreamHQ/awesome-mcp-servers][2500+ Awesome MCP Servers]] - Comprehensive directory
+- [[https://www.mcpappstore.com/][MCP App Store]] - Directory of applications
+
+* Getting Started
+
+** Basic Setup
+
+To get started with MCP:
+
+1. Install an MCP client (Claude Desktop, Cursor, Windsurf, etc.)
+2. Choose or build an MCP server based on your needs
+3. Configure the client to connect to your server
+
+Example configuration for Claude Desktop:
+
+#+begin_src json
+{
+  "servers": [
+    {
+      "name": "filesystem",
+      "command": "npx @anthropic-ai/mcp-fs-server"
+    },
+    {
+      "name": "qrcode-generator",
+      "command": "npx mcp-server-qrcode"
+    }
+  ]
+}
+#+end_src
+
+** Development Resources
+
+For building your own MCP servers:
+
+- Use the official TypeScript or Python SDKs
+- Follow the specifications for JSON-RPC message format
+- Test with MCP Tools CLI for debugging
+- Consider both stdio and SSE transport protocols
+
+* Community and Contributions
+
+- Join Discord for ongoing discussions and updates
+- Submit pull requests for new MCP servers and tools
+- Share experiences and use cases in the sg-ai-dev-tools channel
+- Contribute to the awesome-mcp-servers repositories

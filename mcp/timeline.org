@@ -1,0 +1,126 @@
+#+TITLE: Model Context Protocol (MCP) Timeline
+#+AUTHOR: Jason Walsh
+#+DATE: [2025-04-04 Fri]
+#+OPTIONS: toc:3 num:2 ^:{}
+
+* November 2024: Launch
+** [2024-11-25 Mon] Initial Release
+- Anthropic announces the Model Context Protocol (MCP)
+- Described as "a USB-C port for AI applications"
+- Built on JSON-RPC over standard input/output
+- Initial release focused on local-first connections
+- Design emphasis on security and explicit permissions
+
+** [2024-11-25 Mon] First SDK Releases
+- TypeScript SDK released
+- Python SDK (mcp) released on PyPI
+- 13 initial reference implementations published on GitHub
+  - SQLite
+  - Google Drive
+  - Slack
+  - GitHub
+  - Git
+  - Postgres
+  - Puppeteer (web automation)
+
+** [2024-11-26 Tue] Early Adopter Announcements
+- Block (Square) confirms MCP integration
+- Apollo announces MCP support
+- Developer tools companies announce integrations:
+  - Zed
+  - Replit
+  - Codeium
+  - Sourcegraph
+
+** [2024-11-29 Fri] Initial Developer Reception
+- First blog posts analyzing MCP appear
+- Comparisons to ODBC (Open Database Connectivity)
+- Industry analysts note potential but observe limitations in enterprise scalability
+
+* December 2024: Early Adoption
+** [2024-12-15 Sun] Docker Integration
+- Docker publishes guide on using MCP with containerized applications
+- Simplifies deployment of MCP servers
+
+** [2024-12-20 Fri] Growing Community Implementations
+- First wave of community-built MCP servers appears
+- Developers begin sharing implementations on GitHub
+- Basic tools for file system, database, and API connections emerge
+
+** [2024-12-24 Mon] Protocol Specification Updates
+- Anthropic publishes refinements to the specification
+- Community feedback incorporated into documentation
+- Enhanced examples and tutorials released
+
+* January 2025: Steady Growth
+** [2025-01-15 Wed] Enterprise Interest Emerges
+- First enterprise-focused MCP servers appear
+- Security discussions begin around tool integration risks
+- Early authentication extensions proposed
+
+** [2025-01-20 Mon] Developer Tooling Improves
+- First debugging tools for MCP released
+- Testing frameworks for MCP servers emerge
+- Performance optimization guides published
+
+** [2025-01-30 Thu] First MCP Directory Projects
+- Initial "awesome-mcp-servers" repositories created
+- Community begins cataloging available servers
+- Categories of implementations start to form
+
+* February 2025: The Inflection Point
+** [2025-02-15 Sat] Remote Protocol Extensions
+- HTTP Server-Sent Events (SSE) transport protocol gains traction
+- Cloud deployment patterns emerge
+- Multi-tenant MCP server architectures proposed
+
+** [2025-02-26 Wed] AI Engineer Summit
+- Comprehensive MCP workshops presented
+- Workshop videos go viral
+- Live demonstrations of advanced capabilities
+- Announcement of official registry plans
+
+** [2025-02-27 Thu] Ecosystem Acceleration
+- Massive surge in new implementations following the Summit
+- Community adoption hits inflection point
+- First production enterprise deployments reported
+
+* March 2025: Mainstream Adoption
+** [2025-03-09 Sun] Microsoft Joins the Ecosystem
+- Microsoft releases Playwright-MCP
+- Enables AI agents to browse and interact with websites
+- Uses Chrome accessibility tree for robust web automation
+
+** [2025-03-20 Thu] OpenAI Announces Support
+- Sam Altman confirms MCP support for OpenAI products
+- Initial support added to OpenAI's Agents SDK
+- Plans announced for ChatGPT Desktop app support
+- Promises future support in the Responses API
+
+** [2025-03-22 Sat] Enterprise Platforms Emerge
+- Zapier launches MCP integration with 30,000+ services
+- Cloudflare releases tools for building and deploying remote MCP servers
+- PayPal begins rollout of MCP servers
+- Kong releases MCP server for API management
+
+** [2025-03-25 Tue] Security Concerns Surface
+- Research on MCP tool poisoning attacks published
+- Security recommendations for MCP server developers released
+- Enterprise governance frameworks for MCP proposed
+
+** [2025-03-27 Thu] "MCP as a Service" Trend
+- Multiple MCP hosting platforms launch
+- Directories of verified MCP servers appear
+- Remote MCP SaaS offerings proliferate
+
+** [2025-03-30 Sun] Creative Tool Integration
+- Ableton MCP for music production released
+- Digital art tool integrations appear
+- Game development MCP servers launched
+- Specialized productivity tools flourish
+
+** [2025-03-31 Mon] State of the Ecosystem
+- Over 2,500 publicly available MCP servers
+- Mainstream adoption across major platforms
+- Strong enterprise interest despite security concerns
+- Evolution from experimental to production-ready status
