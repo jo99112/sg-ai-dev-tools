@@ -1,0 +1,828 @@
+#+TITLE: Study Group: AI Development Tools
+#+AUTHOR: Study Group
+#+DATE: [2025-04-10 Thu]
+#+OPTIONS: toc:3 num:3 ^:{}
+#+PROPERTY: header-args :results output :exports both
+#+STARTUP: showeverything
+
+* About This Resource Collection
+
+This directory contains resources, code examples, and discussion materials related to modern AI development tools, particularly Generative AI, Large Language Models (LLMs), and AI Agents. These resources are intended to support self-study and collaborative learning in the field of AI.
+
+* Current Topics of Interest in AI Development
+
+** Model Context Protocol (MCP)
+
+*** What is MCP?
+
+Model Context Protocol (MCP) provides a standardized way for LLMs to interface with external tools, data, and other models. It establishes a common framework for context window management, allowing models to effectively use their context window with external information.
+
+Key components include:
+- A protocol for context exchange between models and their environments
+- Mechanisms for efficiently managing context windows
+- Standardized interfaces for tool use and external data retrieval
+
+*** Why is MCP Important?
+
+- *Standardization*: Creates a common interface across different model implementations
+- *Efficiency*: Enables more effective use of limited context windows
+- *Interoperability*: Allows different systems to work together more seamlessly
+- *Tool Integration*: Provides consistent ways to connect LLMs with external tools
+- *Enterprise Readiness*: Makes AI systems more controllable and predictable in business environments
+
+*** How to Implement MCP
+
+#+begin_src mermaid
+graph TD
+    A[Model] <-->|Context Management Interface| B[Context Manager]
+    B <-->|Tool Interface| C[Tool Registry]
+    C --> D[Tool 1: Web Search]
+    C --> E[Tool 2: Code Execution]
+    C --> F[Tool 3: Database Access]
+    B <-->|Memory Interface| G[Memory System]
+    B <-->|Context Processing| H[Input/Output Processor]
+    H <--> I[User Interface]
+
+    classDef model fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef core fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef tools fill:#fbb,stroke:#333,stroke-width:2px;
+    classDef ui fill:#bbf,stroke:#333,stroke-width:2px;
+
+    class A model;
+    class B,C,G,H core;
+    class D,E,F tools;
+    class I ui;
+#+end_src
+
+*Example MCP Implementation Approach:*
+
+1. Define context schema and management patterns
+2. Implement tool registration and calling mechanisms
+3. Create memory interfaces for context persistence
+4. Build context preprocessing and postprocessing capabilities
+5. Develop synchronization mechanisms for multi-model systems
+
+** GenAI Development Frameworks
+:PROPERTIES:
+:header-args:python: :session genai_frameworks :tangle src/genai_frameworks.py :mkdirp t
+:END:
+
+*** Key Frameworks for LLM Development
+
+**** LangChain
+
+#+begin_src python
+import os
+from langchain.llms import OpenAI
+from langchain.chains import LLMChain
+from langchain.prompts import PromptTemplate
+
+# Example of using LangChain for a simple LLM interaction
+def langchain_example():
+    # Set up the LLM
+    llm = OpenAI(temperature=0.7)
+    
+    # Create a prompt template
+    template = """
+    You are a helpful AI assistant. The user asks: {question}
+    Your response:
+    """
+    prompt = PromptTemplate(template=template, input_variables=["question"])
+    
+    # Create a chain
+    chain = LLMChain(llm=llm, prompt=prompt)
+    
+    # Run the chain
+    response = chain.run(question="What are practical applications of AI in healthcare?")
+    print(response)
+    
+    return response
+#+end_src
+
+**** LlamaIndex
+
+#+begin_src python
+from llama_index import SimpleDirectoryReader, GPTVectorStoreIndex, LLMPredictor
+from langchain.llms import OpenAI
+
+# Example of using LlamaIndex for document-based question answering
+def llamaindex_example():
+    # Load documents
+    documents = SimpleDirectoryReader('data').load_data()
+    
+    # Initialize predictor with OpenAI
+    llm_predictor = LLMPredictor(llm=OpenAI(temperature=0))
+    
+    # Create index
+    index = GPTVectorStoreIndex.from_documents(
+        documents, llm_predictor=llm_predictor
+    )
+    
+    # Query the index
+    query_engine = index.as_query_engine()
+    response = query_engine.query("What are the key findings in the report?")
+    print(response)
+    
+    return response
+#+end_src
+
+**** Semantic Kernel
+
+#+begin_src python
+import semantic_kernel as sk
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+
+# Example of using Semantic Kernel
+def semantic_kernel_example():
+    # Initialize the kernel
+    kernel = sk.Kernel()
+    
+    # Add OpenAI service
+    kernel.add_chat_service("chat-gpt", OpenAIChatCompletion("gpt-4", "your-api-key"))
+    
+    # Create semantic function
+    prompt = """
+    Summarize the following text in three bullet points:
+    {{$input}}
+    """
+    
+    summarize = kernel.create_semantic_function(prompt)
+    
+    # Use the function
+    text = """
+    Artificial intelligence has made significant strides in recent years.
+    Machine learning models can now perform tasks that were once thought
+    to require human intelligence. This progress has led to applications
+    in healthcare, finance, transportation, and many other fields.
+    """
+    
+    result = summarize(text)
+    print(result)
+    
+    return result
+#+end_src
+
+** Agent Architecture and Systems
+:PROPERTIES:
+:header-args:python: :session agents :tangle src/agents.py :mkdirp t
+:END:
+
+*** Agent Frameworks and Tools
+
+**** CrewAI
+
+#+begin_src python
+from crewai import Agent, Task, Crew
+from langchain.llms import OpenAI
+
+def crewai_example():
+    # Initialize the language model
+    llm = OpenAI(temperature=0.7)
+    
+    # Create agents with different roles
+    researcher = Agent(
+        role="Research Analyst",
+        goal="Find comprehensive information on AI development tools",
+        backstory="You are an expert research analyst with expertise in AI technologies",
+        llm=llm
+    )
+    
+    writer = Agent(
+        role="Technical Writer",
+        goal="Create clear and concise documentation about AI tools",
+        backstory="You are a skilled technical writer who excels at explaining complex topics",
+        llm=llm
+    )
+    
+    # Create tasks for the agents
+    research_task = Task(
+        description="Research the latest developments in LLM frameworks",
+        agent=researcher
+    )
+    
+    writing_task = Task(
+        description="Write a comprehensive guide based on the research findings",
+        agent=writer,
+        dependencies=[research_task]
+    )
+    
+    # Create the crew
+    crew = Crew(
+        agents=[researcher, writer],
+        tasks=[research_task, writing_task],
+        verbose=True
+    )
+    
+    # Start the process
+    result = crew.kickoff()
+    
+    return result
+#+end_src
+
+**** LangGraph
+
+#+begin_src python
+from langgraph.graph import Graph, StateBuilder
+from langchain.chat_models import ChatOpenAI
+from langchain.schema import SystemMessage, HumanMessage
+
+# Example of a basic LangGraph implementation
+def langgraph_example():
+    # Define state
+    state_builder = StateBuilder()
+    state_builder.add("messages", list)
+    state_builder.add("current_step", str)
+    
+    # Initialize LLM
+    llm = ChatOpenAI(temperature=0)
+    
+    # Define nodes
+    def research_node(state):
+        messages = [
+            SystemMessage(content="You are a research assistant. Find key information."),
+            HumanMessage(content="Research quantum computing applications.")
+        ]
+        response = llm.invoke(messages)
+        state["messages"].append(response)
+        state["current_step"] = "analysis"
+        return state
+    
+    def analysis_node(state):
+        messages = state["messages"] + [
+            SystemMessage(content="Analyze the research and identify trends."),
+            HumanMessage(content="What are the emerging trends?")
+        ]
+        response = llm.invoke(messages)
+        state["messages"].append(response)
+        state["current_step"] = "complete"
+        return state
+    
+    # Define the graph
+    graph = Graph()
+    graph.add_node("research", research_node)
+    graph.add_node("analysis", analysis_node)
+    
+    # Add edges
+    graph.add_edge("research", "analysis")
+    
+    # Set entry point
+    graph.set_entry_point("research")
+    
+    return graph
+#+end_src
+
+**** AutoGen
+
+#+begin_src python
+from autogen import AssistantAgent, UserProxyAgent, config_list_from_json
+
+def autogen_example():
+    # Configure LLM
+    config_list = config_list_from_json(
+        "OAI_CONFIG_LIST",
+        filter_dict={"model": ["gpt-4"]}
+    )
+    
+    # Create an assistant agent
+    assistant = AssistantAgent(
+        name="AI_Assistant",
+        llm_config={"config_list": config_list},
+        system_message="You are a helpful AI assistant with expertise in programming and data analysis."
+    )
+    
+    # Create a user proxy agent
+    user_proxy = UserProxyAgent(
+        name="User_Proxy",
+        human_input_mode="TERMINATE",
+        max_consecutive_auto_reply=10,
+        is_termination_msg=lambda x: x.get("content", "").rstrip().endswith("TERMINATE"),
+        code_execution_config={"work_dir": "coding", "use_docker": False}
+    )
+    
+    # Start the conversation with a task
+    user_proxy.initiate_chat(
+        assistant,
+        message="Write a Python script to perform sentiment analysis on a dataset of customer reviews."
+    )
+    
+    return "AutoGen example completed"
+#+end_src
+
+** Retrieval Augmented Generation (RAG)
+:PROPERTIES:
+:header-args:python: :session rag :tangle src/rag_examples.py :mkdirp t
+:END:
+
+*** RAG System Architectures
+
+#+begin_src mermaid
+graph TD
+    A[Documents] --> B[Text Chunking]
+    B --> C[Embedding Generation]
+    C --> D[Vector Database]
+    
+    E[User Query] --> F[Query Understanding]
+    F --> G[Query Transformation]
+    
+    G --> H[Vector Search]
+    D --> H
+    
+    H --> I[Context Selection & Ranking]
+    I --> J[Context Integration]
+    
+    E --> K[LLM]
+    J --> K
+    K --> L[Response]
+    
+    M[Feedback Loop] --> N[Evaluation]
+    L --> N
+    N --> M
+
+    classDef process fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef data fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef model fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef feedback fill:#fbb,stroke:#333,stroke-width:2px;
+
+    class A,D,E,L data;
+    class B,C,F,G,H,I,J process;
+    class K model;
+    class M,N feedback;
+#+end_src
+
+*** Advanced RAG Techniques
+
+#+begin_src python
+def advanced_rag_techniques():
+    """
+    Modern RAG architectures and advanced techniques:
+    
+    1. Hybrid Search:
+       - Combine sparse (BM25, keyword) and dense (semantic) retrieval
+       - Merge results using custom re-ranking algorithms
+    
+    2. Multi-vector Retrieval:
+       - Represent documents with multiple embeddings
+       - Child-parent relationships between chunks
+       - Sentence, paragraph, and document-level embeddings
+    
+    3. Query Transformation:
+       - HyDE (Hypothetical Document Embeddings)
+       - Query expansion and reformulation
+       - Multi-query generation
+    
+    4. Recursive RAG:
+       - Generate sub-queries from main query
+       - Perform multiple retrieval steps
+       - Synthesize information across retrievals
+    
+    5. Contextual Compression:
+       - Extract only relevant sentences from retrieved documents
+       - Remove redundancy across retrieved passages
+       - Map-reduce over large document sets
+    
+    6. Self-correcting RAG:
+       - Hallucination detection
+       - RAG with cross-checking and verification
+       - Incorporating metadata for factuality
+    
+    7. Multimodal RAG:
+       - Incorporate images, audio, and video
+       - Cross-modal retrieval techniques
+       - Multi-encoder approaches
+    """
+    
+    return {
+        "techniques": [
+            "Hybrid Search",
+            "Multi-vector Retrieval",
+            "Query Transformation",
+            "Recursive RAG",
+            "Contextual Compression",
+            "Self-correcting RAG",
+            "Multimodal RAG"
+        ]
+    }
+#+end_src
+
+*** Implementing RAG with LlamaIndex
+
+#+begin_src python
+from llama_index import VectorStoreIndex, SimpleDirectoryReader
+from llama_index.indices.postprocessor import SentenceTransformerRerank
+from llama_index.query_engine import RetrieverQueryEngine
+from llama_index.retrievers import VectorIndexRetriever
+from llama_index.schema import Node
+from llama_index.llms import OpenAI
+
+def advanced_llamaindex_rag():
+    # Load documents
+    documents = SimpleDirectoryReader("./data").load_data()
+    
+    # Create index
+    index = VectorStoreIndex.from_documents(documents)
+    
+    # Configure retriever with hybrid search
+    retriever = VectorIndexRetriever(
+        index=index,
+        similarity_top_k=10,  # Retrieve more candidates for reranking
+        service_context=None
+    )
+    
+    # Add reranker for better precision
+    reranker = SentenceTransformerRerank(
+        model="cross-encoder/ms-marco-MiniLM-L-12-v2",
+        top_n=3  # Keep only top 3 after reranking
+    )
+    
+    # Create the query engine with the retriever and reranker
+    query_engine = RetrieverQueryEngine.from_args(
+        retriever=retriever,
+        node_postprocessors=[reranker],
+        llm=OpenAI(model="gpt-4")
+    )
+    
+    # Example query
+    response = query_engine.query(
+        "What are the environmental impacts of blockchain technology?"
+    )
+    
+    return response
+#+end_src
+
+** Evaluation Frameworks and Techniques
+:PROPERTIES:
+:header-args:python: :session eval :tangle src/evaluation.py :mkdirp t
+:END:
+
+*** Evaluating LLM Systems
+
+**** RAGAS for RAG Evaluation
+
+#+begin_src python
+from ragas.metrics import (
+    faithfulness,
+    answer_relevancy,
+    context_precision,
+    context_recall
+)
+from datasets import Dataset
+
+def ragas_evaluation_example():
+    # Sample data
+    data = {
+        "question": [
+            "What are the key features of our product?",
+            "How does our pricing compare to competitors?"
+        ],
+        "answer": [
+            "Our product features AI-powered analytics, real-time monitoring, and intuitive dashboards.",
+            "Our pricing is subscription-based starting at $49/month, which is 20% lower than the industry average."
+        ],
+        "contexts": [
+            [
+                "The product includes advanced AI analytics capabilities.",
+                "Real-time monitoring allows instant alerts.",
+                "The intuitive dashboard provides visualization of all metrics."
+            ],
+            [
+                "Subscription plans start at $49 per month for basic features.",
+                "The industry average pricing for similar tools is approximately $60 per month.",
+                "Enterprise plans are customized based on specific needs."
+            ]
+        ],
+        "ground_truths": [
+            [
+                "The product's key features are AI analytics, real-time monitoring, and interactive dashboards."
+            ],
+            [
+                "Our pricing starts at $49/month, which is lower than competitors who average $60/month."
+            ]
+        ]
+    }
+    
+    # Create dataset
+    dataset = Dataset.from_dict(data)
+    
+    # Calculate metrics
+    result = {
+        "faithfulness": faithfulness.compute(dataset),
+        "answer_relevancy": answer_relevancy.compute(dataset),
+        "context_precision": context_precision.compute(dataset),
+        "context_recall": context_recall.compute(dataset)
+    }
+    
+    return result
+#+end_src
+
+**** LangSmith for End-to-End Evaluation
+
+#+begin_src python
+from langchain.smith import RunEvalConfig
+from langchain.evaluation import load_evaluator
+from langchain.evaluation.criteria import CriteriaEvaluator
+
+def langsmith_evaluation_example():
+    # Define evaluation criteria
+    criteria = {
+        "correctness": "Does the response correctly answer the query?",
+        "coherence": "Is the response coherent and well-structured?",
+        "helpfulness": "Is the response helpful and does it address the user's need?",
+        "harmlessness": "Is the response free from harmful, unethical, or misleading content?"
+    }
+    
+    # Create evaluator
+    evaluator = load_evaluator("criteria", criteria=criteria)
+    
+    # Example evaluation config
+    eval_config = RunEvalConfig(
+        evaluators=[
+            "qa",  # Question-answering correctness
+            "context_faithfulness",  # Checks if response is supported by context
+            evaluator  # Custom criteria evaluator
+        ]
+    )
+    
+    # In production, would run:
+    # eval_results = run_on_dataset(
+    #     dataset_name="my_eval_dataset",
+    #     llm_or_chain=my_chain,
+    #     evaluation=eval_config
+    # )
+    
+    return {"eval_config": eval_config, "criteria": criteria}
+#+end_src
+
+*** Metrics for AI System Evaluation
+
+#+begin_src python
+def key_evaluation_metrics():
+    """
+    Important metrics for evaluating GenAI systems:
+    
+    1. Accuracy Metrics:
+       - Factual accuracy
+       - Semantic accuracy
+       - Task completion rate
+    
+    2. RAG-specific Metrics:
+       - Retrieval precision/recall
+       - Context relevance
+       - Faithfulness to sources
+       - Answer relevancy
+    
+    3. Agent Metrics:
+       - Tool selection accuracy
+       - Task success rate
+       - Reasoning quality
+       - Efficiency (steps to solution)
+    
+    4. User Experience Metrics:
+       - Helpfulness
+       - Coherence
+       - Clarity
+       - Response time
+    
+    5. Safety Metrics:
+       - Harmlessness
+       - Ethical alignment
+       - Bias detection
+       - Refusal appropriateness
+    
+    6. Business Metrics:
+       - Cost per interaction
+       - User satisfaction
+       - Time saved vs. baseline
+       - Error reduction rate
+    """
+    
+    return {
+        "categories": [
+            "Accuracy Metrics",
+            "RAG-specific Metrics",
+            "Agent Metrics",
+            "User Experience Metrics",
+            "Safety Metrics",
+            "Business Metrics"
+        ]
+    }
+#+end_src
+
+** Fine-tuning and Adaptation Techniques
+:PROPERTIES:
+:header-args:python: :session finetuning :tangle src/finetuning.py :mkdirp t
+:END:
+
+*** Approaches to Model Adaptation
+
+#+begin_src python
+def model_adaptation_techniques():
+    """
+    Techniques for adapting LLMs to specific use cases:
+    
+    1. Full Fine-tuning:
+       - Update all model weights
+       - Requires significant data and compute
+       - Best for major behavior changes
+    
+    2. Parameter-Efficient Fine-tuning (PEFT):
+       - LoRA (Low-Rank Adaptation)
+       - QLoRA (Quantized LoRA)
+       - Prefix tuning
+       - Prompt tuning
+       - Adapter layers
+    
+    3. Instruction Tuning:
+       - Format data as instructions
+       - Focus on following specific direction types
+       - Can be combined with PEFT methods
+    
+    4. Context Learning:
+       - Few-shot learning in context
+       - In-context learning (ICL)
+       - Retrieval-augmented generation
+    
+    5. Prompt Engineering:
+       - System prompts
+       - Chain-of-thought prompting
+       - Tree-of-thought techniques
+       - Self-consistency methods
+    """
+    
+    return {
+        "categories": [
+            "Full Fine-tuning",
+            "Parameter-Efficient Fine-tuning (PEFT)",
+            "Instruction Tuning",
+            "Context Learning",
+            "Prompt Engineering"
+        ]
+    }
+#+end_src
+
+*** LoRA Implementation Example
+
+#+begin_src python
+from datasets import load_dataset
+from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments
+from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+import torch
+
+def lora_finetuning_example():
+    # 1. Load base model
+    model_name = "meta-llama/Llama-2-7b-hf"
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        load_in_8bit=True,
+        device_map="auto",
+        trust_remote_code=True
+    )
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    
+    # 2. Prepare model for LoRA training
+    model = prepare_model_for_kbit_training(model)
+    
+    # 3. Configure LoRA
+    lora_config = LoraConfig(
+        r=16,                    # Rank of update matrices
+        lora_alpha=32,           # LoRA scaling factor
+        target_modules=["q_proj", "v_proj", "k_proj", "o_proj"],  # Which modules to apply LoRA to
+        lora_dropout=0.05,       # Dropout probability for LoRA layers
+        bias="none",             # Don't add bias parameters
+        task_type="CAUSAL_LM"    # Task type
+    )
+    
+    # 4. Apply LoRA config to model
+    model = get_peft_model(model, lora_config)
+    
+    # 5. Define training arguments
+    training_args = TrainingArguments(
+        output_dir="./lora-llama2",
+        per_device_train_batch_size=4,
+        gradient_accumulation_steps=4,
+        warmup_steps=100,
+        max_steps=1000,
+        learning_rate=2e-4,
+        fp16=True,
+        logging_steps=10,
+        save_steps=100,
+        evaluation_strategy="steps",
+        eval_steps=100,
+    )
+    
+    # Note: In a real implementation, you would:
+    # 1. Prepare your dataset
+    # 2. Set up a data collator
+    # 3. Initialize a Trainer
+    # 4. Start the training process
+    # 5. Merge LoRA weights or use the adapter
+    
+    return {
+        "model": model_name,
+        "lora_config": {
+            "r": lora_config.r,
+            "lora_alpha": lora_config.lora_alpha,
+            "target_modules": lora_config.target_modules,
+        },
+        "training_args": {
+            "batch_size": training_args.per_device_train_batch_size,
+            "learning_rate": training_args.learning_rate,
+            "max_steps": training_args.max_steps
+        }
+    }
+#+end_src
+
+* Learning Resources
+
+** Documentation and Guides
+
+- LangChain Documentation: https://python.langchain.com/docs/get_started/introduction
+- LlamaIndex Documentation: https://docs.llamaindex.ai/en/stable/
+- CrewAI Documentation: https://docs.crewai.com/
+- AutoGen Documentation: https://microsoft.github.io/autogen/
+- Semantic Kernel Guide: https://learn.microsoft.com/en-us/semantic-kernel/
+- LangSmith Platform: https://docs.smith.langchain.com/
+- PEFT Documentation: https://huggingface.co/docs/peft/index
+
+** Tutorials and Courses
+
+- DeepLearning.AI Short Courses: https://www.deeplearning.ai/short-courses/
+- Hugging Face NLP Course: https://huggingface.co/learn/nlp-course/
+- Full Stack LLM Bootcamp: https://fullstackdeeplearning.com/llm-bootcamp/
+- LLM University by Cohere: https://docs.cohere.com/docs/llmu
+- Prompt Engineering Guide: https://www.promptingguide.ai/
+
+** Research Papers
+
+- "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks" (Lewis et al., 2020)
+- "Training Language Models to Follow Instructions" (Ouyang et al., 2022)
+- "LoRA: Low-Rank Adaptation of Large Language Models" (Hu et al., 2021)
+- "ReAct: Synergizing Reasoning and Acting in Language Models" (Yao et al., 2022)
+- "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models" (Wei et al., 2022)
+- "Tree of Thoughts: Deliberate Problem Solving with Large Language Models" (Yao et al., 2023)
+- "QLoRA: Efficient Finetuning of Quantized LLMs" (Dettmers et al., 2023)
+
+** Tools and Libraries
+
+- LangChain: https://github.com/langchain-ai/langchain
+- LlamaIndex: https://github.com/jerryjliu/llama_index
+- PEFT: https://github.com/huggingface/peft
+- CrewAI: https://github.com/joaomdmoura/crewAI
+- AutoGen: https://github.com/microsoft/autogen
+- LangGraph: https://github.com/langchain-ai/langgraph
+- RAGAS: https://github.com/explodinggradients/ragas
+- Semantic Kernel: https://github.com/microsoft/semantic-kernel
+
+** Community Resources
+
+- Hugging Face Community: https://huggingface.co/
+- LangChain Discord: https://discord.gg/langchain
+- MLOps Community: https://mlops.community/
+- AI Engineers Discord: https://discord.gg/aie
+- Papers with Code: https://paperswithcode.com/
+
+* Getting Started
+
+To use the code examples in this repository:
+
+1. Clone this repository
+2. Set up a virtual environment
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Run the examples:
+   ```bash
+   python -m src.rag_examples
+   ```
+
+** Environment Setup
+
+Requirements for running the examples:
+
+#+begin_src python
+# requirements.txt
+langchain>=0.1.0
+llama-index>=0.8.54
+semantic-kernel>=0.3.0
+transformers>=4.36.0
+peft>=0.6.0
+ragas>=0.0.18
+datasets>=2.14.0
+faiss-cpu>=1.7.4
+crewai>=0.28.0
+sentence-transformers>=2.2.2
+torch>=2.0.0
+bitsandbytes>=0.41.0
+accelerate>=0.21.0
+openai>=1.3.0
+autogen>=0.2.0
+#+end_src
+
+* Contributing
+
+This is a collaborative resource. To contribute:
+
+1. Add your examples, notes, or resources
+2. Ensure code examples are well-documented
+3. Include requirements for any new dependencies
+4. Share your knowledge with the community

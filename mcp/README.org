@@ -1,0 +1,38 @@
+#+TITLE: Model Context Protocol (MCP) Projects
+#+AUTHOR: Jason Walsh
+#+DATE: 2025-04-04
+
+* Overview
+
+This repository catalogs Model Context Protocol (MCP) projects and resources. MCP enables structured communication between Large Language Models (LLMs) and external tools, following the JSON-RPC specification.
+
+* Our Projects
+
+** mcp.el - Emacs Implementation
+- [[https://github.com/jwalsh/mcp.el][GitHub Repository]]
+- Provides structured communication between Emacs and MCP servers
+- Supports filesystem and generic servers
+- Features extensible tool system, async/sync operations
+- Integration with packages like gptel
+
+** mcp-server-qrcode - QR Code Generator
+- [[https://github.com/jwalsh/mcp-server-qrcode][GitHub Repository]]
+- Generates QR codes for URLs, WiFi credentials, contacts, text, and calendar events
+- Multiple output formats (PNG/base64, ASCII/text, data URL)
+- Customizable size and error correction
+
+* External Resources
+
+** LSP-MCP Implementations
+- [[https://github.com/oOo0oOo/lean-lsp-mcp][lean-lsp-mcp]] - MCP to LSP bridge for the Lean theorem prover
+- [[https://github.com/Tritlo/lsp-mcp][Tritlo/lsp-mcp]] - Protocol for integrating LLMs with LSP servers
+- [[https://github.com/jonrad/lsp-mcp][jonrad/lsp-mcp]] - Another LSP-MCP implementation
+
+** Other MCP Projects
+- [[https://github.com/microsoft/playwright-mcp][playwright-mcp]] - Microsoft's Playwright browser automation with MCP
+
+** Official Resources
+- [[https://modelcontextprotocol.io/][MCP Official Website]]
+- [[https://docs.anthropic.com/en/docs/agents-and-tools/mcp][Anthropic MCP Documentation]]
+- [[https://modelcontextprotocol.io/quickstart/user][MCP for Users]] - Quickstart guide for using MCP
+- [[https://modelcontextprotocol.io/quickstart/server][Building MCP Servers]] - Guide for server developers
